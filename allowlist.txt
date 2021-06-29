@@ -35,3 +35,5 @@
 @@||a.line.me^$client='iphone'
 @@||recaptcha.net
 @@||www.recaptcha.net
+||scrootca2.ocsp.secomtrust.net
+||secomtrust.net
