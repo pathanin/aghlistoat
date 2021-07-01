@@ -35,3 +35,7 @@
 @@||a.line.me^$client='iphone'
 @@||recaptcha.net
 @@||www.recaptcha.net
+@@||download.pixelexperience.org^$important
+@@||pixelexperience.org^$important
+@@||doubleverify.com
+@@||amazontrust.com
