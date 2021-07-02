@@ -35,6 +35,6 @@
 @@||recaptcha.net
 @@||www.recaptcha.net
 @@||download.pixelexperience.org^$important
-@@||pixelexperience.org^$important
+@@||pixelexperience.org
 @@||doubleverify.com
 @@||amazontrust.com
