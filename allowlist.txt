@@ -43,3 +43,4 @@
 @@||i.s-microsoft.com
 ||https://8.8.8.8^$important
 ||https://8.8.4.4^$important
+||dns.google
