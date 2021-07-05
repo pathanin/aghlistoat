@@ -38,3 +38,8 @@
 @@||pixelexperience.org
 @@||doubleverify.com
 @@||amazontrust.com
+||8.8.8.8^$important
+||8.8.4.4^$important
+@@||i.s-microsoft.com
+||https://8.8.8.8^$important
+||https://8.8.4.4^$important
