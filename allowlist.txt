@@ -45,3 +45,10 @@
 ||https://8.8.4.4^$important
 ||dns.google^$important
 ||dns.google.com^$important
+||m.ballthai999.com^$important
+||ballthai999.com^$important
+||dadsans.com^$important
+||i.otaserve.net^$important
+||otaserve.net^$important
+||ads-g.juicyads.com^$important
+||bongacams.com^$important
