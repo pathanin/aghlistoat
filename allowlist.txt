@@ -37,7 +37,6 @@
 @@||download.pixelexperience.org^$important
 @@||pixelexperience.org
 @@||doubleverify.com
-@@||amazontrust.com
 ||8.8.8.8^$important
 ||8.8.4.4^$important
 @@||i.s-microsoft.com
