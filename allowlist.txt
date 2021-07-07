@@ -52,3 +52,4 @@
 ||otaserve.net^$important
 ||ads-g.juicyads.com^$important
 ||bongacams.com^$important
+@@||pi-hole.net^
