@@ -52,3 +52,9 @@
 ||ads-g.juicyads.com^$important
 ||bongacams.com^$important
 @@||pi-hole.net^
+||cat300.com^
+||london168.com^
+||mahagame88.com^
+||hydra888.com^
+||ufazeed.com^
+||ufac4.com^
