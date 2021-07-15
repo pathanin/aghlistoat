@@ -59,3 +59,4 @@
 ||ufazeed.com^
 ||ufac4.com^
 ||imprezzer.com^
+@@||go.webtoons.com
