@@ -21,25 +21,13 @@
 ||v05.cap-ash1.technoratimedia.com^
 ||incoming.telemetry.mozilla.org^
 ||pixel.quantserve.com^
-@@||videos-cloudflare.jwpsrv.com^
 ||beacons.gcp.gvt2.com^$important
-@@||videos-fms.jwpsrv.com^
 ||beacons.gvt2.com^$important
 ||www.baidu.com^$client='192.168.1.113'
-@@||dmcpc-ad02.inset.org^$client='work laptop'
-@@||mpics.mgronline.com^
 ||pordee.com^$important
 ||serch07.biz^$important
-@@||ads.imprezzer.com^$client='papa-pc'
-@@||a.line.me^$client='iphone'
-@@||recaptcha.net
-@@||www.recaptcha.net
-@@||download.pixelexperience.org^$important
-@@||pixelexperience.org
-@@||doubleverify.com
 ||8.8.8.8^$important
 ||8.8.4.4^$important
-@@||i.s-microsoft.com
 ||https://8.8.8.8^$important
 ||https://8.8.4.4^$important
 ||dns.google^$important
@@ -51,7 +39,6 @@
 ||otaserve.net^$important
 ||ads-g.juicyads.com^$important
 ||bongacams.com^$important
-@@||pi-hole.net^
 ||cat300.com^
 ||london168.com^
 ||mahagame88.com^
@@ -59,6 +46,3 @@
 ||ufazeed.com^
 ||ufac4.com^
 ||imprezzer.com^
-@@||go.webtoons.com
-@@||blognone.com^
-@@||blogspot.com^
