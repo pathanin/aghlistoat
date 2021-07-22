@@ -61,3 +61,4 @@
 ||imprezzer.com^
 @@||go.webtoons.com
 @@||blognone.com^
+@@||blogspot.com^
