@@ -1,0 +1,16 @@
+@@||videos-cloudflare.jwpsrv.com^
+@@||videos-fms.jwpsrv.com^
+@@||dmcpc-ad02.inset.org^$client='work laptop'
+@@||mpics.mgronline.com^
+@@||ads.imprezzer.com^$client='papa-pc'
+@@||a.line.me^$client='iphone'
+@@||recaptcha.net
+@@||www.recaptcha.net
+@@||download.pixelexperience.org^$important
+@@||pixelexperience.org
+@@||doubleverify.com
+@@||i.s-microsoft.com
+@@||pi-hole.net^
+@@||go.webtoons.com
+@@||blognone.com^
+@@||blogspot.com^
