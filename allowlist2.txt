@@ -14,3 +14,5 @@
 @@||go.webtoons.com
 @@||blognone.com^
 @@||blogspot.com^
+@@||2mcmg31d.r.us-east-1.awstrack.me
+@@||static.parastorage.com
