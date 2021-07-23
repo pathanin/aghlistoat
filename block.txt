@@ -1,3 +1,5 @@
+||diveio.com^
+||ingoal88.com^
 ||sync.v5prebid.datablocks.net^$important
 ||cs.krushmedia.com^
 ||api.lunamedia.io^
