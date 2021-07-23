@@ -1,2 +1,2 @@
 # List for Adguard Home
-contain multiple domain for specific need.
+contain multiple domain for specific needs.
