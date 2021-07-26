@@ -18,3 +18,4 @@
 @@||metamask.app.link
 @@||joylada.com^
 @@||medium.com^
+@@||rsci.app.link
