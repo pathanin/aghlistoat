@@ -17,3 +17,4 @@
 @@||static.parastorage.com
 @@||metamask.app.link
 @@||joylada.com^
+@@||medium.com^
