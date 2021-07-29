@@ -20,3 +20,4 @@
 @@||medium.com^
 @@||rsci.app.link
 @@||link.jittawealth.co
+@@||jittawealth.app.link
