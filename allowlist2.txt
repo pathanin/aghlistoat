@@ -1,3 +1,4 @@
+@@||blogs.oracle.com^
 @@||mozilla.crowdicity.com
 @@||siamzone.com^
 @@||videos-cloudflare.jwpsrv.com^
