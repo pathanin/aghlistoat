@@ -24,3 +24,4 @@
 @@||link.jittawealth.co
 @@||jittawealth.app.link
 @@||assetstore.unity.com
+@@||assetstorev1-prd-cdn.unity3d.com
