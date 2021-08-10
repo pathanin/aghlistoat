@@ -25,3 +25,4 @@
 @@||jittawealth.app.link
 @@||assetstore.unity.com
 @@||assetstorev1-prd-cdn.unity3d.com
+@@||ads.imprezzer.com^$client='192.168.1.170'
