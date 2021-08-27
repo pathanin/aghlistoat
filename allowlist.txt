@@ -32,3 +32,4 @@
 @@||oa.tr.line.me
 @@||app.shopback.com
 @@||blog.mozilla.org
+@@||riotgames.sng.link
