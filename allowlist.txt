@@ -1,3 +1,6 @@
+@@||apple.com
+@@||cdn-apple.com
+@@||xp.apple.com
 @@||found.ee
 @@||archive.is
 @@||blog.cloudflare.com
