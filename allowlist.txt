@@ -1,5 +1,4 @@
 @@||static.wixstatic.com
-@@||apple.com
 @@||cdn-apple.com
 @@||xp.apple.com
 @@||found.ee
