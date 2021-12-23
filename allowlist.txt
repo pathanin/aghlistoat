@@ -1,3 +1,4 @@
+@@||audio.tidal.com^
 @@||binance.me^
 @@||static.wixstatic.com
 @@||cdn-apple.com
