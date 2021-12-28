@@ -41,3 +41,7 @@
 @@||app.shopback.com
 @@||blog.mozilla.org
 @@||riotgames.sng.link
+@@||ca.iadsdk.apple.com
+@@||ocsp.apple.com
+@@||tr.iadsdk.apple.com
+
