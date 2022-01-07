@@ -44,3 +44,4 @@
 ||ufac4.com^
 ||imprezzer.com^
 ||roninweb.io^
+||nytime.com^
