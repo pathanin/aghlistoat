@@ -52,3 +52,4 @@
 ||wkt5bn.digital^
 ||trendmicro.com^
 ||picz.in.th^
+||serieshot.co^
