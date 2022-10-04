@@ -48,3 +48,4 @@
 @@||tracking-protection.cdn.mozilla.net^
 @@||analyticstest.settrade.com^
 @@||maildn.daumcdn.net
+@@||t.co^
