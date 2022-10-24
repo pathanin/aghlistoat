@@ -49,8 +49,7 @@
 @@||analyticstest.settrade.com^
 @@||maildn.daumcdn.net
 @@||t.co^
-@@||t.ly
-@@||www.bit.ly
-@@||bit.ly
-@@||ow.ly
-@@||tinyurl.com
+@@||t.ly^
+@@||bit.ly^
+@@||ow.ly^
+@@||tinyurl.com^
