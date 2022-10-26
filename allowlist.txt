@@ -46,7 +46,7 @@
 @@||careers.accor.com^
 @@||static.cloud.sbs.co.kr^
 @@||tracking-protection.cdn.mozilla.net^
-@@||analyticstest.settrade.com^
+@@||settrade.com^
 @@||maildn.daumcdn.net
 @@||t.co^
 @@||t.ly^
