@@ -48,8 +48,8 @@
 @@||tracking-protection.cdn.mozilla.net^
 @@||settrade.com^
 @@||maildn.daumcdn.net
-@@||t.co^
-@@||t.ly^
-@@||bit.ly^
-@@||ow.ly^
-@@||tinyurl.com^
+@@||t.co
+@@||t.ly
+@@||bit.ly
+@@||ow.ly
+@@||tinyurl.com
