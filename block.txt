@@ -76,3 +76,5 @@
 ||pigspin.com^
 ||https://pigspin.com^
 ||acgd6.com^
+||xchina.pro^
+||xchina.co^
