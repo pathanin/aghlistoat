@@ -20,6 +20,8 @@
 ||https://www.googleadservices.com^
 ||googleadservices.com^
 ||ad.doubleclick.net^
+||xdcad.net^
+||xchina.fun^
 ||dart.l.doubleclick.net^
 ||^traff(ic)?[-.]^$important
 ||v05.cap-ash1.technoratimedia.com^
