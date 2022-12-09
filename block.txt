@@ -26,6 +26,9 @@
 ||^traff(ic)?[-.]^$important
 ||v05.cap-ash1.technoratimedia.com^
 ||incoming.telemetry.mozilla.org^
+||www.dvr163.com
+||p2plog.dvr163.com
+||ngw.dvr163.com
 ||pixel.quantserve.com^
 ||beacons.gcp.gvt2.com^
 ||beacons.gvt2.com^
