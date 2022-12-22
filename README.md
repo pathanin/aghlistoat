@@ -104,5 +104,5 @@ edns-packet-max=1232
 
 ----------
 
-Donte to Pi-hole here: https://pi-hole.net/donate/
+Donate to Pi-hole team here: https://pi-hole.net/donate/
 
