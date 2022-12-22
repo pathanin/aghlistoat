@@ -16,9 +16,9 @@ curl -sSL https://install.pi-hole.net | bash
 sudo pihole -a -p
 ```
 * จะเจอ prompt ให้ตั้งรหัสผ่านใหม่ ก็ตั้งให้เรียบร้อย
-* เข้า Admin web interface ที่ [http://pi.hole/admin](http://pi.hole/admin) หรือ [http://[pi_ip]/admin](http://[pi_ip]/admin) จะเจอหน้า Login ใช้รหัสผ่านที่ตั้งเมื่อกี้
+* เข้า Admin web interface ที่ [http://pi.hole/admin](http://pi.hole/admin) หรือ [http://[pi_ip]/admin](http://[Raspberrypi_IP]/admin) จะเจอหน้า Login ใช้รหัสผ่านที่ตั้งเมื่อกี้
 
-![image](https://user-images.githubusercontent.com/13798838/209172320-e1106354-2187-4d80-b1d1-326af103fc7b.png)
+![image](https://user-images.githubusercontent.com/13798838/209174042-a7d17bb3-761f-4230-87ba-0d8b7760ad8a.png)
 
 
 ### ตั้งค่า Upstream DNS
@@ -41,7 +41,9 @@ sudo nano /etc/cron.d/pihole-extra
 ```
 50 4 * * 3 root PATH="$PATH:/usr/sbin:/usr/local/bin/" pihole updateGravity
 ```
-* ส่วน Regex Pi-hole ก็รองรับเหมือนกัน แต่ไม่รองรับเป็น List ต้อง add ทีละอัน แต่ว่ามีคนทำ python script เอาไว้แล้วให้ add ง่าย ๆ [GitHub — mmotti/pihole-regex: Custom regex filter list for use with Pi-hole.](https://github.com/mmotti/pihole-regex "https://github.com/mmotti/pihole-regex")[](https://github.com/mmotti/pihole-regex)
+* ส่วน Regex Pi-hole ก็รองรับเหมือนกัน แต่ไม่รองรับเป็น List ต้อง add ทีละอัน แต่ว่ามีคนทำ python script เอาไว้แล้วให้ add ง่าย ๆ 
+
+[GitHub — mmotti/pihole-regex: Custom regex filter list for use with Pi-hole.](https://github.com/mmotti/pihole-regex "https://github.com/mmotti/pihole-regex")[](https://github.com/mmotti/pihole-regex)
 #### Add
 ```  
 curl -sSl https://raw.githubusercontent.com/mmotti/pihole-regex/master/install.py | sudo python3
@@ -56,9 +58,14 @@ curl -sSl https://raw.githubusercontent.com/mmotti/pihole-regex/master/uninstall
 
 ### Allowlist
 
-Pi-hole ไม่รองรับ Allowlist แบบเป็นไฟล์ ต้องเพิ่มทีละ Domain เอาเองจากหน้า Web UI หรือจาก Terminal `pihole -w [domain1] [domain2] […]`
+Pi-hole ไม่รองรับ Allowlist แบบเป็นไฟล์ ต้องเพิ่มทีละ Domain เอาเองจากหน้า Web UI หรือจาก Terminal 
+```
+pihole -w [domain1] [domain2] […]
+```
 
-แต่มีคนทำ python script เอาไว้แล้วเหมือนกัน รันทีเดียว add ได้ทีละเยอะ ๆ [GitHub — anudeepND/whitelist: A simple tool to add commonly white listed domains to your Pi-Hole](https://github.com/anudeepND/whitelist "https://github.com/anudeepND/whitelist")[](https://github.com/anudeepND/whitelist)
+แต่มีคนทำ python script เอาไว้แล้วเหมือนกัน รันทีเดียว add ได้ทีละเยอะ ๆ 
+
+[GitHub — anudeepND/whitelist: A simple tool to add commonly white listed domains to your Pi-Hole](https://github.com/anudeepND/whitelist "https://github.com/anudeepND/whitelist")[](https://github.com/anudeepND/whitelist)
 #### For whitelist.txt
 ```
 git clone https://github.com/anudeepND/whitelist.git  
@@ -106,5 +113,9 @@ edns-packet-max=1232
 
 ----------
 
-Donate to Pi-hole team here: https://pi-hole.net/donate/
+Donate to Pi-hole team here: https://pi-hole.net/donate
+
+Docs: https://docs.pi-hole.net
+
+Subreddit: https://www.reddit.com/r/pihole
 
