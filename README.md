@@ -100,7 +100,7 @@ BLOCK_TTL=10
 ```
 กับอีกที่คือใน Directory `/etc/dnsmasq.d/`
 
-ในนี้ไฟล์ 01-pihole.conf จะโดนเขียนทับเวลามี update เพราะงั้นถ้าต้องการแก้ config ให้สร้างไฟล์ใหม่ เช่น
+ในนี้ไฟล์ `01-pihole.conf` จะโดนเขียนทับเวลามี update เพราะงั้นถ้าต้องการแก้ config ให้สร้างไฟล์ใหม่ เช่น
 
 ```
 sudo nano /etc/dnsmasq.d/99-custom.conf
