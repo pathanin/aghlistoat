@@ -1,7 +1,4 @@
-@@||icloud.com^
-@@||inset.org^
 @@||audio.tidal.com^
-@@||binance.me^
 @@||static.wixstatic.com
 @@||cdn-apple.com
 @@||xp.apple.com
@@ -15,10 +12,10 @@
 @@||siamzone.com^
 @@||videos-cloudflare.jwpsrv.com^
 @@||videos-fms.jwpsrv.com^
-@@||dmcpc-ad02.inset.org^$client='work laptop'
+@@||dmcpc-ad02.inset.org^
 @@||mpics.mgronline.com^
 @@||ads.imprezzer.com^$client='papa-pc'
-@@||a.line.me^$client='iphone'
+@@||a.line.me^
 @@||recaptcha.net
 @@||pixelexperience.org
 @@||doubleverify.com
