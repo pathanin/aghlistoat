@@ -33,7 +33,6 @@
 @@||jittawealth.app.link
 @@||assetstore.unity.com
 @@||assetstorev1-prd-cdn.unity3d.com
-@@||ads.imprezzer.com^$client='192.168.1.170'
 @@||oa.tr.line.me
 @@||app.shopback.com
 @@||blog.mozilla.org
@@ -51,3 +50,4 @@
 @@||ow.ly
 @@||tinyurl.com
 @@||track.thailandpost.co.th
+@@||msedgeextensions.sf.tlu.dl.delivery.mp.microsoft.com^
