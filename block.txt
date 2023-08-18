@@ -52,7 +52,6 @@
 ||hkrshzgoh.cn
 ||hotgraph881.com^
 ||https://pigspin.com^
-||https://www.googleadservices.com^
 ||hydra888.com^
 ||hydra8881.com^
 ||iesdouyin.com^
@@ -312,7 +311,6 @@ sync.v5prebid.datablocks.net
 t.wpscdn.cn
 tdn.r42tag.com
 trendmicro.com
-trendmicro.com
 ufac4.com
 ufac4.net
 ufazeed.com
@@ -340,6 +338,6 @@ xundupdf.com
 yangkeduo.com
 yq.aliyun.com
 zdfans.com
-||dg1688g.com^
-||uich.cc^
-||hdjr.ink^
+dg1688g.com^
+uich.cc^
+hdjr.ink^
