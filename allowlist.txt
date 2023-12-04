@@ -14,7 +14,7 @@
 @@||videos-fms.jwpsrv.com^
 @@||dmcpc-ad02.inset.org^
 @@||mpics.mgronline.com^
-@@||ads.imprezzer.com^$client='papa-pc'
+@@||ads.imprezzer.com^
 @@||a.line.me^
 @@||recaptcha.net
 @@||pixelexperience.org
