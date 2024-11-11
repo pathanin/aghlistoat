@@ -1,0 +1,48 @@
+# Apple Intelligence, Siri, and Search
+apple-relay.fastly-edge.com
+guzzoni.apple.com
+smoot.apple.com^
+apple-relay.cloudflare.com
+apple-relay.fastly-edge.com
+cp4.cloudflare.com
+apple-relay.apple.com
+
+# Associated domains for universal links
+app-site-association.cdn-apple.com
+app-site-association.networking.apple
+
+# ID Verifier on iPhone
+smp-device-content.apple.com
+humb.apple.com
+idv.cdn-apple.com
+idv-prod1.apple.com
+
+# Apple Account
+account.apple.com
+appleid.cdn-apple.com
+idmsa.apple.com
+gsa.apple.com
+
+# Certificate validation
+certs.apple.com
+crl.apple.com
+crl3.digicert.com
+crl4.digicert.com
+ocsp.apple.com
+ocsp.digicert.cn
+ocsp.digicert.com
+ocsp2.apple.com
+valid.apple.com
+
+# Carrier updates
+appldnld.apple.com
+appldnld.apple.com.edgesuite.net
+itunes.apple.com
+itunes.com
+updates-http.cdn-apple.com
+updates.cdn-apple.com
+appldnld.apple.com
+
+# Device Management
+push.apple.com^
+albert.apple.com
