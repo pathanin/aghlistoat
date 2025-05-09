@@ -2,3 +2,4 @@
 \b[\w.-]*sexygame[\w.-]*\b
 \b[\w.-]*vip168[\w.-]*\b
 \b[\w.-]*lockdown1[\w.-]*\b
+(^|.)iadsdk.apple.com$
