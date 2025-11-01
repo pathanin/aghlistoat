@@ -1,0 +1,2 @@
+https://easylist.to/easylist/easylist.txt
+https://raw.githubusercontent.com/easylist-thailand/easylist-thailand/refs/heads/master/subscription/easylist-thailand.txt
