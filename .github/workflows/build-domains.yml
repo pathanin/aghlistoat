@@ -2,8 +2,8 @@ name: Build domain list
 
 on:
   schedule:
-    - cron: "5 */12 * * *"   # every 12 hours (UTC)
-  workflow_dispatch:         # allow manual run from Actions tab
+    - cron: "5 */12 * * *"   # every ~12h (UTC); adjust as needed
+  workflow_dispatch:         # allow manual runs
 
 permissions:
   contents: write
@@ -18,57 +18,78 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Prepare environment
-        run: chmod +x parse_adblock_to_domains.py
+      - name: Prepare
+        run: |
+          python -V
+          chmod +x parse_adblock_to_domains.py
+          mkdir -p dist
 
-      - name: Fetch & build (force rebuild)
+      - name: Fetch & build
         shell: bash
         run: |
           set -euo pipefail
-          shopt -s nullglob
-
-          mkdir -p dist
-          out="dist/domains.txt"
-          # ensure clean start — empty file before building
-          : > "$out"
-
           tmpdir="$(mktemp -d)"
-          n_ok=0
+          out="dist/domains.txt"
 
-          echo "Fetching sources..."
+          # Fetch all sources; warn on failures, continue.
           while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
-            echo "  - $url"
-            if curl -fsSL "$url" -o "$tmpdir/src-$RANDOM.txt"; then
-              n_ok=$((n_ok+1))
-            else
+            echo "Fetching: $url"
+            if ! curl -fsSL "$url" -o "$tmpdir/src-$(printf %04d $RANDOM).txt"; then
               echo "WARN: failed to fetch $url" >&2
             fi
           done < adblock_sources.txt
 
-          if [[ $n_ok -eq 0 ]]; then
-            echo "ERROR: No sources fetched; refusing to overwrite output." >&2
-            exit 1
-          fi
+          # Build combined list → parse → sort
+          cat "$tmpdir"/src-*.txt 2>/dev/null | \
+            ./parse_adblock_to_domains.py --sort > "$out".new
 
-          echo "Parsing filter lists..."
-          cat "$tmpdir"/src-*.txt | ./parse_adblock_to_domains.py --sort > "$out".new
-
-          echo "Running basic sanity filter..."
+          # Quick sanity filter (keeps only plausible hostnames)
           awk 'tolower($0) ~ /^[a-z0-9.-]+$/ && index($0,"..")==0 && length($0)<=253' "$out".new > "$out".clean
           mv "$out".clean "$out".new
 
-          mv "$out".new "$out"
-          echo "Build completed: $(wc -l < "$out") domains"
+          # Only update if changed
+          updated=0
+          if [[ ! -f "$out" ]] || ! cmp -s "$out" "$out".new; then
+            mv "$out".new "$out"
+            updated=1
+          else
+            rm "$out".new
+          fi
 
-      - name: Commit & push if changed
-        run: |
-          if [[ -n "$(git status --porcelain dist/domains.txt)" ]]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add dist/domains.txt
-            git commit -m "Rebuild domains list $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-            git push
+          # Split into 4 parts whenever base file exists or was updated
+          if [[ -f "$out" ]]; then
+            rm -f dist/domains.part*.txt
+            # Split in 4 (line-balanced). Produces ...part00.txt ...part03.txt
+            split -d -n l/4 --additional-suffix=.txt "$out" dist/domains.part
+
+            # Rename to 1..4 for friendlier filenames
+            for i in 0 1 2 3; do
+              src=$(printf "dist/domains.part%02d.txt" "$i")
+              dst=$(printf "dist/domains.part%d.txt" $((i+1)))
+              # Ensure empty parts still exist for consistency
+              : > "$src"
+              mv "$src" "$dst"
+            done
+          fi
+
+          # Stage only if anything changed
+          git add -N dist/domains.txt dist/domains.part*.txt >/dev/null 2>&1 || true
+          if [[ -n "$(git status --porcelain dist/domains.txt dist/domains.part*.txt)" ]]; then
+            echo "updated=true" >> "$GITHUB_OUTPUT"
           else
             echo "No changes to commit."
+          fi
+
+      - name: Commit & push
+        if: steps.build.outputs.updated == 'true' || success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ -n "$(git status --porcelain dist/domains.txt dist/domains.part*.txt)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist/domains.txt dist/domains.part*.txt
+            git commit -m "Update domains list and parts $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push
           fi
