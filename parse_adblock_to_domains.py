@@ -3,7 +3,7 @@
 import sys, re, argparse
 from urllib.parse import urlparse
 
-SEP_RE = re.compile(r'[\^/:%\*\?\|]')  # delimiters ending a hostname
+SEP_RE = re.compile(r'[\^/:%\*\?\|]')
 HOST_RE = re.compile(r'^(?:[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z0-9\-]{2,63}$')
 IP_RE = re.compile(r'^(?:\d{1,3}\.){3}\d{1,3}$')
 BOM_WS_RE = re.compile(r'^\ufeff?\s*')  # strip BOM + leading spaces
@@ -31,50 +31,60 @@ def netloc_host(s: str) -> str | None:
         pass
     return None
 
-def extract_from_abp(line: str) -> str | None:
+def extract_domain(line: str) -> tuple[str | None, str | None]:
+    """
+    Returns (domain, status)
+    status = 'whitelist' if @@ rule, 'block' if normal rule, None otherwise
+    """
     s = BOM_WS_RE.sub('', line.rstrip())
     if not s:
-        return None
-    # skip comments / headers / whitelist / non-block rules
-    if s.startswith(('!', '#', '[', '@@')):
-        return None
+        return None, None
+    # skip comments and headers
+    if s.startswith(('!', '#', '[')):
+        return None, None
     if '##' in s or '#@#' in s or '#?#' in s:
-        return None
+        return None, None
     if '$badfilter' in s or '$rewrite=' in s:
-        return None
+        return None, None
     if s.startswith('/') and s.endswith('/') and len(s) > 2:
-        return None
+        return None, None
 
-    # hosts-file style: "0.0.0.0 domain"
+    is_whitelist = s.startswith('@@')
+    if is_whitelist:
+        s = s[2:]  # remove @@ prefix
+
+    # hosts-style lines
     parts = s.split()
     if len(parts) >= 2 and IP_RE.match(parts[0]):
         for tok in parts[1:]:
             if looks_like_host(tok):
-                return tok.lower()
-        return None
+                return tok.lower(), 'whitelist' if is_whitelist else 'block'
+        return None, None
 
-    # ||example.com^ syntax
+    # ||example.com^
     if s.startswith('||'):
         s2 = s[2:].lstrip('.')
         host = SEP_RE.split(s2, 1)[0].strip('.').lower()
-        return host if looks_like_host(host) else None
+        return (host, 'whitelist' if is_whitelist else 'block') if looks_like_host(host) else (None, None)
 
-    # |http(s):// anchored or |example.com
+    # |http(s)://
     if s.startswith('|'):
         s2 = s[1:]
         if '://' in s2:
-            return netloc_host(s2)
+            h = netloc_host(s2)
+            return (h, 'whitelist' if is_whitelist else 'block') if h else (None, None)
         host = SEP_RE.split(s2, 1)[0].lstrip('.').strip('.').lower()
-        return host if looks_like_host(host) else None
+        return (host, 'whitelist' if is_whitelist else 'block') if looks_like_host(host) else (None, None)
 
-    # full URLs
     if '://' in s:
-        return netloc_host(s)
+        h = netloc_host(s)
+        return (h, 'whitelist' if is_whitelist else 'block') if h else (None, None)
 
     # generic patterns
     s2 = s.replace('*.', '.').lstrip('*.|')
     host = SEP_RE.split(s2, 1)[0].strip('.').lower()
-    return host if looks_like_host(host) else None
+    return (host, 'whitelist' if is_whitelist else 'block') if looks_like_host(host) else (None, None)
+
 
 def main():
     ap = argparse.ArgumentParser(description="Convert Adblock/uBO/hosts lists to domain-only list for Pi-hole.")
@@ -82,21 +92,23 @@ def main():
     ap.add_argument('--sort', action='store_true', help="Sort output alphabetically.")
     args = ap.parse_args()
 
-    seen = set()
+    blocked = set()
+    whitelisted = set()
 
     def feed_line(line: str):
-        s = BOM_WS_RE.sub('', line)
-        if not s.strip() or s.lstrip().startswith(('!', '#', '[', '@@')):
+        domain, status = extract_domain(line)
+        if not domain or not status:
             return
-        parts = s.strip().split()
-        if len(parts) >= 2 and IP_RE.match(parts[0]):
-            for tok in parts[1:]:
-                if looks_like_host(tok) and tok.lower() not in seen:
-                    seen.add(tok.lower())
-            return
-        host = extract_from_abp(s)
-        if host and host not in seen:
-            seen.add(host)
+
+        if status == 'whitelist':
+            whitelisted.add(domain)
+            # remove from blocked if it was added before
+            if domain in blocked:
+                blocked.remove(domain)
+        elif status == 'block':
+            # skip if it's whitelisted (earlier or later)
+            if domain not in whitelisted:
+                blocked.add(domain)
 
     if args.file == '-':
         for line in sys.stdin:
@@ -106,7 +118,7 @@ def main():
             for line in f:
                 feed_line(line)
 
-    out = sorted(seen) if args.sort else list(seen)
+    out = sorted(blocked) if args.sort else list(blocked)
     for h in out:
         print(h)
 
