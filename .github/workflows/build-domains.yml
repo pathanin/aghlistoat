@@ -2,11 +2,11 @@ name: Build domain list
 
 on:
   schedule:
-    - cron: "5 */12 * * *"   # every ~12h (UTC). Change as you like.
-  workflow_dispatch:         # allow manual run from the Actions tab
+    - cron: "5 */12 * * *"   # every 12 hours (UTC)
+  workflow_dispatch:         # allow manual run from Actions tab
 
 permissions:
-  contents: write            # needed to push commits
+  contents: write
 
 jobs:
   build:
@@ -18,27 +18,27 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install tools
-        run: |
-          python -V
-          chmod +x parse_adblock_to_domains.py
+      - name: Prepare environment
+        run: chmod +x parse_adblock_to_domains.py
 
-      - name: Fetch & build (replace, never append)
+      - name: Fetch & build (force rebuild)
         shell: bash
         run: |
           set -euo pipefail
           shopt -s nullglob
 
-          # Start clean so no old domains linger
-          rm -rf dist
           mkdir -p dist
-          tmpdir="$(mktemp -d)"
+          out="dist/domains.txt"
+          # ensure clean start — empty file before building
+          : > "$out"
 
-          # Fetch all sources fresh
+          tmpdir="$(mktemp -d)"
           n_ok=0
+
+          echo "Fetching sources..."
           while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
-            echo "Fetching: $url"
+            echo "  - $url"
             if curl -fsSL "$url" -o "$tmpdir/src-$RANDOM.txt"; then
               n_ok=$((n_ok+1))
             else
@@ -51,16 +51,15 @@ jobs:
             exit 1
           fi
 
-          # Build a brand-new domains.txt
-          out="dist/domains.txt"
+          echo "Parsing filter lists..."
           cat "$tmpdir"/src-*.txt | ./parse_adblock_to_domains.py --sort > "$out".new
 
-          # Lightweight sanity filter
+          echo "Running basic sanity filter..."
           awk 'tolower($0) ~ /^[a-z0-9.-]+$/ && index($0,"..")==0 && length($0)<=253' "$out".new > "$out".clean
           mv "$out".clean "$out".new
 
-          # Move into place atomically
           mv "$out".new "$out"
+          echo "Build completed: $(wc -l < "$out") domains"
 
       - name: Commit & push if changed
         run: |
@@ -71,6 +70,5 @@ jobs:
             git commit -m "Rebuild domains list $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             git push
           else
-            echo "No change; nothing to commit."
+            echo "No changes to commit."
           fi
-
