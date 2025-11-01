@@ -1,0 +1,75 @@
+name: Build domain list
+
+on:
+  schedule:
+    - cron: "5 */12 * * *"   # every ~12h (UTC). Change as you like.
+  workflow_dispatch:         # allow manual run from the Actions tab
+
+permissions:
+  contents: write            # needed to push commits
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install tools
+        run: |
+          python -V
+          chmod +x parse_adblock_to_domains.py
+
+      - name: Fetch & build
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmpdir="$(mktemp -d)"
+          out="dist/domains.txt"
+          mkdir -p dist
+
+          # Fetch all sources with curl; ignore failures per URL but warn.
+          while IFS= read -r url; do
+            [[ -z "$url" || "$url" =~ ^# ]] && continue
+            echo "Fetching: $url"
+            if curl -fsSL "$url" -o "$tmpdir/src-$(printf %04d $RANDOM).txt"; then
+              :
+            else
+              echo "WARN: failed to fetch $url" >&2
+            fi
+          done < adblock_sources.txt
+
+          # Concatenate and parse to domain-only
+          cat "$tmpdir"/src-*.txt 2>/dev/null | \
+            ./parse_adblock_to_domains.py --sort > "$out".new || {
+              echo "Parser failed" >&2; exit 1; }
+
+          # Lightweight sanity: drop obvious non-hosts (just in case)
+          awk 'tolower($0) ~ /^[a-z0-9.-]+$/ && index($0,"..")==0 && length($0)<=253' "$out".new > "$out".clean
+          mv "$out".clean "$out".new
+
+          # Only commit if changed
+          if [[ ! -f "$out" ]] || ! cmp -s "$out" "$out".new; then
+            mv "$out".new "$out"
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No change."
+            rm "$out".new
+          fi
+
+      - name: Commit & push if updated
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ -n "$(git status --porcelain dist/domains.txt)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist/domains.txt
+            git commit -m "Update domains list $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push
+          fi
+
