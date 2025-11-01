@@ -23,53 +23,54 @@ jobs:
           python -V
           chmod +x parse_adblock_to_domains.py
 
-      - name: Fetch & build
+      - name: Fetch & build (replace, never append)
         shell: bash
         run: |
           set -euo pipefail
-          tmpdir="$(mktemp -d)"
-          out="dist/domains.txt"
-          mkdir -p dist
+          shopt -s nullglob
 
-          # Fetch all sources with curl; ignore failures per URL but warn.
+          # Start clean so no old domains linger
+          rm -rf dist
+          mkdir -p dist
+          tmpdir="$(mktemp -d)"
+
+          # Fetch all sources fresh
+          n_ok=0
           while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
             echo "Fetching: $url"
-            if curl -fsSL "$url" -o "$tmpdir/src-$(printf %04d $RANDOM).txt"; then
-              :
+            if curl -fsSL "$url" -o "$tmpdir/src-$RANDOM.txt"; then
+              n_ok=$((n_ok+1))
             else
               echo "WARN: failed to fetch $url" >&2
             fi
           done < adblock_sources.txt
 
-          # Concatenate and parse to domain-only
-          cat "$tmpdir"/src-*.txt 2>/dev/null | \
-            ./parse_adblock_to_domains.py --sort > "$out".new || {
-              echo "Parser failed" >&2; exit 1; }
+          if [[ $n_ok -eq 0 ]]; then
+            echo "ERROR: No sources fetched; refusing to overwrite output." >&2
+            exit 1
+          fi
 
-          # Lightweight sanity: drop obvious non-hosts (just in case)
+          # Build a brand-new domains.txt
+          out="dist/domains.txt"
+          cat "$tmpdir"/src-*.txt | ./parse_adblock_to_domains.py --sort > "$out".new
+
+          # Lightweight sanity filter
           awk 'tolower($0) ~ /^[a-z0-9.-]+$/ && index($0,"..")==0 && length($0)<=253' "$out".new > "$out".clean
           mv "$out".clean "$out".new
 
-          # Only commit if changed
-          if [[ ! -f "$out" ]] || ! cmp -s "$out" "$out".new; then
-            mv "$out".new "$out"
-            echo "updated=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "No change."
-            rm "$out".new
-          fi
+          # Move into place atomically
+          mv "$out".new "$out"
 
-      - name: Commit & push if updated
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit & push if changed
         run: |
           if [[ -n "$(git status --porcelain dist/domains.txt)" ]]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add dist/domains.txt
-            git commit -m "Update domains list $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git commit -m "Rebuild domains list $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             git push
+          else
+            echo "No change; nothing to commit."
           fi
 
